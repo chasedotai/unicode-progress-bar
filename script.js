@@ -3,24 +3,60 @@ const percentageDisplay = document.getElementById('percentageDisplay');
 const progressBar = document.getElementById('progressBar');
 const copyButton = document.getElementById('copyButton');
 const copyMessage = document.getElementById('copyMessage');
+const styleSelect = document.getElementById('styleSelect');
 
-// Twitter-friendly Unicode characters
-const LEFT_CAP = '【';
-const RIGHT_CAP = '】';
-const EMPTY = '　';  // Unicode full-width space
-const FULL = '█';
-const BAR_LENGTH = 10;  // Shorter length for Twitter
+// Progress bar styles
+const styles = {
+    blocks: {
+        left: '【',
+        right: '】',
+        empty: '　',
+        full: '█'
+    },
+    lines: {
+        left: '|',
+        right: '|',
+        empty: '░',
+        full: '|'
+    },
+    circles: {
+        left: '(',
+        right: ')',
+        empty: '○',
+        full: '●'
+    },
+    squares: {
+        left: '[',
+        right: ']',
+        empty: '□',
+        full: '■'
+    },
+    stars: {
+        left: '『',
+        right: '』',
+        empty: '☆',
+        full: '★'
+    }
+};
+
+let currentStyle = styles.blocks;
+const BAR_LENGTH = 10;
 
 function updateProgressBar() {
     const percentage = progressSlider.value;
     const filledLength = Math.round((percentage / 100) * BAR_LENGTH);
     
-    const filledPart = FULL.repeat(filledLength);
-    const emptyPart = EMPTY.repeat(BAR_LENGTH - filledLength);
+    const filledPart = currentStyle.full.repeat(filledLength);
+    const emptyPart = currentStyle.empty.repeat(BAR_LENGTH - filledLength);
     
-    const progressText = `${LEFT_CAP}${filledPart}${emptyPart}${RIGHT_CAP} ${percentage}%`;
+    const progressText = `${currentStyle.left}${filledPart}${emptyPart}${currentStyle.right} ${percentage}%`;
     progressBar.textContent = progressText;
     percentageDisplay.textContent = `${percentage}%`;
+}
+
+function changeStyle(event) {
+    currentStyle = styles[event.target.value];
+    updateProgressBar();
 }
 
 async function copyToClipboard() {
@@ -40,6 +76,7 @@ async function copyToClipboard() {
 progressSlider.addEventListener('input', updateProgressBar);
 copyButton.addEventListener('click', copyToClipboard);
 progressBar.addEventListener('click', copyToClipboard);
+styleSelect.addEventListener('change', changeStyle);
 
 // Initialize the progress bar
 updateProgressBar(); 

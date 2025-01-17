@@ -69,4 +69,24 @@ input[type="range"] {
 
 .copy-message.visible {
     opacity: 1;
+}
+
+.style-selector {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.style-selector select {
+    padding: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+.style-selector label {
+    font-size: 14px;
+    color: #666;
 } 
